@@ -1,0 +1,10 @@
+server:
+  port: 80 #端口号
+
+spring:
+  thymeleaf:
+    cache: false #修改网页时请关闭模版引擎缓存，否则测试没效果
+    encoding: UTF-8 #编码格式
+    mode: HTML5 #严格的HTML5格式
+  profiles:
+    active: dev #自定义使用开发环境或生产环境，

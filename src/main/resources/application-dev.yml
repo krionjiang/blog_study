@@ -1,0 +1,14 @@
+spring:
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/web-blog
+      username: root
+      password: root
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+mybatis:
+  type-aliases-package: com.jlq.domain
