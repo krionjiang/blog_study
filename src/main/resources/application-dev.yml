@@ -12,3 +12,11 @@ spring:
       test-on-borrow: true
 mybatis:
   type-aliases-package: com.jlq.domain
+
+
+comment.avatar: /images/boy.png
+#静态资源对外暴露的访问路径
+file.staticAccessPath: /api/file/**
+#文件上传目录（注意Linux和Windows上的目录结构不同）
+#file.uploadFolder=/root/uploadFiles/
+file.uploadFolder: d://uploadFiles/
