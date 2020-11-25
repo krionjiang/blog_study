@@ -8,10 +8,37 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="tag_name" jdbcType="VARCHAR" property="tagName" />
   </resultMap>
+  
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
     -->
     id, tag_name
   </sql>
+  <select id="listTop" resultMap="BaseResultMap" parameterType="int" >
+      SELECT tb_tag.id,tb_tag.tag_name
+      FROM tb_tag 
+      ORDER BY(SELECT count(tb_blog_tags.tags_id) 
+      FROM tb_blog_tags 
+      where tb_blog_tags.tags_id = tb_tag.id) DESC
+      LIMIT #{size}
+  </select>
+    
+    <insert id="saveAndFlush" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="TbTag" >
+        insert INTO tb_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">id,</if>
+            <if test="tagName!=null">tag_name,</if>
+        </trim>
+        
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="tagName!=null">#{tagName},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="tagName!=null">tag_Name=#{tagName},</if>
+        </trim>
+    </insert>
 </mapper>

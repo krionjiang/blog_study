@@ -8,3 +8,8 @@ spring:
     mode: HTML5 #严格的HTML5格式
   profiles:
     active: dev #自定义使用开发环境或生产环境，
+  devtools:
+    restart:
+      enabled: true  #开启热部署
+      additional-paths: src/main/java #刷新路径
+      
