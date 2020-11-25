@@ -14,4 +14,30 @@
     -->
     id, type_name
   </sql>
+  <select id="listTop" resultMap="BaseResultMap" parameterType="int" >
+      SELECT tb_blog.type_id 
+      FROM tb_blog , tb_type
+      where tb_blog.type_id = tb_type.id
+      GROUP BY tb_blog.type_id 
+      ORDER BY count(1) DESC
+      LIMIT #{size}
+  </select>
+
+  <insert id="saveAndFlush" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+          parameterType="TbType" >
+    insert INTO tb_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id!=null">id,</if>
+      <if test="typeName!=null">type_name,</if>
+    </trim>
+
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id!=null">#{id},</if>
+      <if test="typeName!=null">#{typeName},</if>
+    </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim suffixOverrides=",">
+      <if test="typeName!=null">type_name=#{typeName},</if>
+    </trim>
+  </insert>
 </mapper>
