@@ -1,43 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jlq.mapper.TbBlogMapper">
-  <resultMap id="BaseResultMap" type="com.jlq.pojo.TbBlog">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="appreciation" jdbcType="BIT" property="appreciation" />
-    <result column="commentabled" jdbcType="BIT" property="commentabled" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="first_picture" jdbcType="VARCHAR" property="firstPicture" />
-    <result column="flag" jdbcType="VARCHAR" property="flag" />
-    <result column="published" jdbcType="BIT" property="published" />
-    <result column="recommend" jdbcType="BIT" property="recommend" />
-    <result column="share" jdbcType="BIT" property="share" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="views" jdbcType="INTEGER" property="views" />
-    <result column="type_id" jdbcType="BIGINT" property="typeId" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jlq.pojo.TbBlog">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, appreciation, commentabled, create_time, description, first_picture, flag, published, 
-    recommend, share, title, update_time, views, type_id, user_id
-  </sql>
-  <sql id="Blob_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    content
-  </sql>
+    <resultMap id="BaseResultMap" type="com.jlq.pojo.TbBlog">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="appreciation" jdbcType="BIT" property="appreciation" />
+        <result column="commentabled" jdbcType="BIT" property="commentabled" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="first_picture" jdbcType="VARCHAR" property="firstPicture" />
+        <result column="flag" jdbcType="VARCHAR" property="flag" />
+        <result column="published" jdbcType="BIT" property="published" />
+        <result column="recommend" jdbcType="BIT" property="recommend" />
+        <result column="share" jdbcType="BIT" property="share" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="views" jdbcType="INTEGER" property="views" />
+        <result column="type_id" jdbcType="BIGINT" property="typeId" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+        <association property="user" column="user_id"
+                     select="com.jlq.mapper.TbUserMapper.selectByPrimaryKey"
+                     javaType="com.jlq.pojo.TbUser">
+
+        </association>
+        <association property="type" column="type_id"
+                     select="com.jlq.mapper.TbTypeMapper.selectByPrimaryKey"
+                     javaType="com.jlq.pojo.TbType">
+
+        </association>
+        <collection property="tags" ofType="com.jlq.pojo.TbTag" column="id"
+                    javaType="ArrayList" fetchType="lazy" select="com.jlq.mapper.TbTagMapper.selectByBlogId">
+            <id property="id" column="id"></id>
+            <result property="tagName" column="tag_name"></result>
+        </collection>
+    </resultMap>
+
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jlq.pojo.TbBlog">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        id, appreciation, commentabled, create_time, description, first_picture, flag, published,
+        recommend, share, title, update_time, views, type_id, user_id
+    </sql>
+    <sql id="Blob_Column_List">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        content
+    </sql>
+
+    <select id="selectAllNewTbBlog"  resultMap="BaseResultMap">
+    select * from tb_blog  
+  </select>
+
+    <select id="selectAllNewTbBlogById" resultMap="BaseResultMap" parameterType="LONG">
+    select * from tb_blog
+    where id = #{id}
+  </select>
+
+    <select id="selectAllNewTbBlogInId" resultMap="BaseResultMap" parameterType="List">
+        select * from tb_blog
+        where id in
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
+
+    <insert id="saveAndFlush" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="TbBlog" >
+        insert INTO tb_blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">id,</if>
+            <if test="appreciation!=null">appreciation,</if>
+            <if test="commentabled!=null">commentabled,</if>
+            <if test="createTime!=null">create_time,</if>
+            <if test="description!=null">description,</if>
+            <if test="firstPicture!=null">first_picture,</if>
+            <if test="flag!=null">flag,</if>
+            <if test="published!=null">published,</if>
+            <if test="recommend!=null">recommend,</if>
+            <if test="share!=null">share,</if>
+            <if test="title!=null">title,</if>
+            <if test="updateTime!=null">update_time,</if>
+            <if test="views!=null">views,</if>
+            <if test="content!=null">content,</if>
+            <if test="typeId!=null">type_id,</if>
+            <if test="userId!=null">user_id,</if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="appreciation!=null">#{appreciation},</if>
+            <if test="commentabled!=null">#{commentabled},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="description!=null">#{description},</if>
+            <if test="firstPicture!=null">#{firstPicture},</if>
+            <if test="flag!=null">#{flag},</if>
+            <if test="published!=null">#{published},</if>
+            <if test="recommend!=null">#{recommend},</if>
+            <if test="share!=null">#{share},</if>
+            <if test="title!=null">#{title},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
+            <if test="views!=null">#{views},</if>
+            <if test="content!=null">#{content},</if>
+            <if test="typeId!=null">#{typeId},</if>
+            <if test="userId!=null">#{userId},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="appreciation!=null">appreciation=#{appreciation},</if>
+            <if test="commentabled!=null">commentabled=#{commentabled},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="description!=null">description=#{description},</if>
+            <if test="firstPicture!=null">first_picture=#{firstPicture},</if>
+            <if test="flag!=null">flag=#{flag},</if>
+            <if test="published!=null">published=#{published},</if>
+            <if test="recommend!=null">recommend=#{recommend},</if>
+            <if test="share!=null">share=#{share},</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="views!=null">views=#{views},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="typeId!=null">type_id=#{typeId},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+        </trim>
+    </insert>
+
+    <!--  <insert id="saveAndFlush" useGeneratedKeys="true" keyProperty="id" keyColumn="id"-->
+    <!--          parameterType="TbBlogTags" >-->
+    <!--    insert INTO tb_blog_tags-->
+    <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id!=null">id,</if>-->
+    <!--      <if test="tagName!=null">tag_name,</if>-->
+    <!--    </trim>-->
+
+    <!--    <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id!=null">#{id},</if>-->
+    <!--      <if test="tagName!=null">#{tagName},</if>-->
+    <!--    </trim>-->
+    <!--    ON DUPLICATE KEY UPDATE-->
+    <!--    <trim suffixOverrides=",">-->
+    <!--      <if test="tagName!=null">tag_Name=#{tagName},</if>-->
+    <!--    </trim>-->
+    <!--  </insert>-->
+
+    <!--  <insert id="saveAndFlushBlogTags" parameterType="TbBlog">-->
+    <!--    INSERT INTO tb_blog_tags(-->
+    <!--    blogs_id,-->
+    <!--    tags_id-->
+    <!--    ) value-->
+    <!--    <foreach collection="tags" item="item" separator=",">-->
+    <!--      (-->
+    <!--      #{id},-->
+    <!--      #{item.id}-->
+    <!--      )-->
+    <!--    </foreach>-->
+    <!--&lt;!&ndash;    ON DUPLICATE KEY UPDATE&ndash;&gt;-->
+    <!--&lt;!&ndash;    <trim suffixOverrides=",">&ndash;&gt;-->
+    <!--&lt;!&ndash;      <if test="id!=null">id=#{id},</if>&ndash;&gt;-->
+    <!--&lt;!&ndash;      <if test="tags!=null">tags_id=#{tags.id},</if>&ndash;&gt;-->
+    <!--&lt;!&ndash;    </trim>&ndash;&gt;-->
+    <!--  </insert>-->
+
+    <insert id="saveAndFlushBlogTags" parameterType="TbBlog">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(1) from tb_blog_tags
+            where (blogs_id,tags_id) in ((#{id},#{tempTagId}))
+        </selectKey>
+        <if test="count==0">
+            INSERT INTO tb_blog_tags(blogs_id,tags_id)
+            values (#{id},#{tempTagId})
+        </if>
+    </insert>
+    
+    <delete id="deleteBlogTags" parameterType="LONG">
+        delete from tb_blog_tags where blogs_id = #{id}
+    </delete>
 </mapper>

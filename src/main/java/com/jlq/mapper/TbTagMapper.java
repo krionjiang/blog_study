@@ -20,5 +20,12 @@ public interface TbTagMapper extends MyMapper<TbTag> {
      * @return
      */
     int saveAndFlush(TbTag tag);
+
+    /**
+     * 根据博客ID查询所含有的Tag标签
+     * @param id
+     * @return
+     */
+    List<TbTag> selectByBlogId(Integer id);
     
 }

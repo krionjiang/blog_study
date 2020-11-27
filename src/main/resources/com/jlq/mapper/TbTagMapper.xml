@@ -41,4 +41,12 @@
             <if test="tagName!=null">tag_Name=#{tagName},</if>
         </trim>
     </insert>
+
+    <select id="selectByBlogId" parameterType="INT" resultMap="BaseResultMap">
+    SELECT tb_tag.id,tb_tag.tag_name 
+    FROM tb_tag
+    where tb_tag.id in (SELECT tbt.tags_id
+    FROM tb_blog_tags tbt
+    WHERE tbt.blogs_id = #{id})
+  </select>
 </mapper>

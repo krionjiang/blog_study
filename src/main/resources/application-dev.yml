@@ -12,6 +12,8 @@ spring:
       test-on-borrow: true
 mybatis:
   type-aliases-package: com.jlq.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 pagehelper:
   helper-dialect: mysql
   reasonable: true
