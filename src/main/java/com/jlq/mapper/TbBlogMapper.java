@@ -26,5 +26,13 @@ public interface TbBlogMapper extends MyMapper<TbBlog> {
     List<TbBlog> selectAllNewTbBlogInId(List<Long> list);
     
     void deleteBlogTags(Long id);
+
+    List<TbBlog> findListByRecommend(Integer size);
+    
+    List<TbBlog> selectByTypeId(Long id);
+    
+    List<TbBlog> selectByTagId(Long id);
+
+    int updateViews(Long id);
     
 }

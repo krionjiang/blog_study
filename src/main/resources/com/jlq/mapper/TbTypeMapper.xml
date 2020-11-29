@@ -7,6 +7,10 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <collection property="blogs" column="id" ofType="TbBlog"
+                javaType="ArrayList" fetchType="lazy" select="com.jlq.mapper.TbBlogMapper.selectByTypeId">
+      
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -14,9 +18,15 @@
     -->
     id, type_name
   </sql>
+  <select id="selectTypesAllPro" resultMap="BaseResultMap">
+    SELECT * FROM tb_type
+  </select>
+  <select id="findByIDPro" parameterType="LONG" resultMap="BaseResultMap">
+    SELECT * FROM tb_type where id = #{id}
+  </select>
   <select id="listTop" resultMap="BaseResultMap" parameterType="int" >
-      SELECT tb_blog.type_id 
-      FROM tb_blog , tb_type
+      SELECT tb_type.id  ,tb_type.type_name
+      FROM tb_blog , tb_type    
       where tb_blog.type_id = tb_type.id
       GROUP BY tb_blog.type_id 
       ORDER BY count(1) DESC

@@ -53,8 +53,16 @@ public class TypeServcie {
         return this.tbTypeMapper.selectByPrimaryKey(id);
     }
 
+    public TbType findByIDPro(Long id) {
+        return this.tbTypeMapper.findByIDPro(id);
+    }
+
     public List<TbType> finAll() {
         return this.tbTypeMapper.selectAll();
+    }
+    
+    public List<TbType> selectTypesAllPro() {
+        return this.tbTypeMapper.selectTypesAllPro();
     }
 
     public List<TbType> listTop(Integer size) {

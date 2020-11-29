@@ -57,6 +57,23 @@
         -->
         content
     </sql>
+    
+    <update id="updateViews" parameterType="LONG">
+        update tb_blog b set b.views = b.views+1
+        where b.id = #{id}
+    </update>
+    
+    <select id="selectByTypeId" resultMap="BaseResultMap">
+        select * from tb_blog
+        where type_id = #{id}
+    </select>
+    
+    <select id="selectByTagId" resultMap="BaseResultMap">
+        SELECT tb_blog.* 
+        from tb_blog , tb_blog_tags
+        WHERE tb_blog.id = tb_blog_tags.blogs_id
+        and tb_blog_tags.tags_id = #{id}
+    </select>
 
     <select id="selectAllNewTbBlog"  resultMap="BaseResultMap">
     select * from tb_blog  
@@ -188,4 +205,10 @@
     <delete id="deleteBlogTags" parameterType="LONG">
         delete from tb_blog_tags where blogs_id = #{id}
     </delete>
+    
+    <select id="findListByRecommend" parameterType="INT" resultMap="BaseResultMap">
+        select * from tb_blog 
+        where recommend = 1
+        LIMIT #{size};
+    </select>
 </mapper>

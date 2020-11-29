@@ -14,6 +14,10 @@
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="blog_id" jdbcType="BIGINT" property="blogId" />
     <result column="parent_comment_id" jdbcType="BIGINT" property="parentCommentId" />
+    <association property="blog" column="blog_id"
+                 select="com.jlq.mapper.TbBlogMapper.selectAllNewTbBlogById" javaType="TbBlog">
+      
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -21,4 +25,9 @@
     -->
     id, admin_comment, avatar, content, create_time, email, nickname, blog_id, parent_comment_id
   </sql>
+  
+  <select id="findByBlogIdAndParentCommentNull" parameterType="LONG" resultMap="BaseResultMap">
+    select * from tb_comment
+    where blog_id = #{id}
+  </select>
 </mapper>

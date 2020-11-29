@@ -1,9 +1,19 @@
 package com.jlq.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_comment")
 public class TbComment implements Serializable {
     @Id
@@ -30,151 +40,10 @@ public class TbComment implements Serializable {
     @Column(name = "parent_comment_id")
     private Long parentCommentId;
 
+    private TbBlog blog;
+
+    private List<TbComment> replyComments = new ArrayList<>();
+
     private static final long serialVersionUID = 1L;
-
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return admin_comment
-     */
-    public Boolean getAdminComment() {
-        return adminComment;
-    }
-
-    /**
-     * @param adminComment
-     */
-    public void setAdminComment(Boolean adminComment) {
-        this.adminComment = adminComment;
-    }
-
-    /**
-     * @return avatar
-     */
-    public String getAvatar() {
-        return avatar;
-    }
-
-    /**
-     * @param avatar
-     */
-    public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
-    }
-
-    /**
-     * @return content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * @param content
-     */
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email
-     */
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    /**
-     * @return nickname
-     */
-    public String getNickname() {
-        return nickname;
-    }
-
-    /**
-     * @param nickname
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    /**
-     * @return blog_id
-     */
-    public Long getBlogId() {
-        return blogId;
-    }
-
-    /**
-     * @param blogId
-     */
-    public void setBlogId(Long blogId) {
-        this.blogId = blogId;
-    }
-
-    /**
-     * @return parent_comment_id
-     */
-    public Long getParentCommentId() {
-        return parentCommentId;
-    }
-
-    /**
-     * @param parentCommentId
-     */
-    public void setParentCommentId(Long parentCommentId) {
-        this.parentCommentId = parentCommentId;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", adminComment=").append(adminComment);
-        sb.append(", avatar=").append(avatar);
-        sb.append(", content=").append(content);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", email=").append(email);
-        sb.append(", nickname=").append(nickname);
-        sb.append(", blogId=").append(blogId);
-        sb.append(", parentCommentId=").append(parentCommentId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+    
 }

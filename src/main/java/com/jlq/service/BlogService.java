@@ -9,7 +9,9 @@ import com.jlq.pojo.TbBlog;
 import com.jlq.pojo.TbTag;
 import com.jlq.pojo.TbType;
 import com.jlq.pojo.TbUser;
+import com.jlq.util.MarkdownUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -130,21 +132,37 @@ public class BlogService {
         return this.tbBlogMapper.saveAndFlush(blog);
     }
 
-//    public List<TbBlog> findListByRecommend(Integer size) {
+    public List<TbBlog> findListByRecommend(Integer size) {
 //        Sort sort = new Sort(Sort.Direction.DESC, "updateTime");
-//        return this.blogRepository.findListByRecommend(PageRequest.of(0, size, sort));
-//    }
+        return this.tbBlogMapper.findListByRecommend(size);
+    }
 
-//    /**
-//     * 根据搜索内容查询
-//     *
-//     * @param queryValue
-//     * @param pageable
-//     * @return
-//     */
-//    public PageInfo<TbBlog> findListBySearchQueryValue(String queryValue, int pageNum, int pageSize, String orderBy) {
-//        return this.blogRepository.findListBySearchQueryValue("%" + queryValue + "%", pageable);
-//    }
+    /**
+     * 根据id查询博客内容并转换content属性
+     *
+     * @param id
+     * @return
+     */
+    public TbBlog findBlogByIDConvertContent(Long id) {
+        TbBlog blog = this.tbBlogMapper.selectAllNewTbBlogById(id);
+        TbBlog b = new TbBlog();
+        BeanUtils.copyProperties(blog, b);
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(b.getContent()));
+        this.tbBlogMapper.updateViews(id);
+        return b;
+    }
+
+    /**
+     * 根据TagId查找对应的Blog
+     * @param id
+     * @return
+     */
+    public PageInfo<TbBlog> findBlogListByTagId(Long id,int pageNum, int pageSize, String orderBy){
+        PageHelper.startPage(pageNum,pageSize,orderBy);
+        List<TbBlog> blogs = this.tbBlogMapper.selectByTagId(id);
+        PageInfo<TbBlog> pageInfo = new PageInfo<>(blogs);
+        return pageInfo;
+    }
     
     
 }

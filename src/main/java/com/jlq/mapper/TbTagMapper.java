@@ -27,5 +27,17 @@ public interface TbTagMapper extends MyMapper<TbTag> {
      * @return
      */
     List<TbTag> selectByBlogId(Integer id);
+
+    /**
+     * 增强版全查询
+     * @return
+     */
+    List<TbTag> selectTagsAllPro();
+
+    /**
+     * 增强版根据ID查询
+     * @return
+     */
+    TbTag findByIDPro(Long id);
     
 }

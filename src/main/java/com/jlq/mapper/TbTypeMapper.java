@@ -20,4 +20,17 @@ public interface TbTypeMapper extends MyMapper<TbType> {
      * @return
      */
     int saveAndFlush(TbType type);
+
+    /**
+     * 增强版查询所有Types
+     * @return
+     */
+    List<TbType> selectTypesAllPro();
+
+    /**
+     * 增强版根据Id查询Types
+     * @param id
+     * @return
+     */
+    TbType findByIDPro(Long id);
 }

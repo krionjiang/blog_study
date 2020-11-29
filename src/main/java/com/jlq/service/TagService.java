@@ -36,6 +36,10 @@ public class TagService {
         return this.tbTagMapper.selectByPrimaryKey(id);
 //        return this.tagRepository.findById(id).orElse(new TbTag());
     }
+    
+    public TbTag findByIDPro(Long id) {
+        return this.tbTagMapper.findByIDPro(id);
+    }
 
     public int save(TbTag tag) {
         return this.tbTagMapper.saveAndFlush(tag);
@@ -52,6 +56,10 @@ public class TagService {
 
     public List<TbTag> finAll() {
         return this.tbTagMapper.selectAll();
+    }
+    
+    public List<TbTag> selectTagsAllPro(){
+        return this.tbTagMapper.selectTagsAllPro();
     }
 
     public List<TbTag> findByIdS(List<Long> longs) {
